@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DogGO.Repositories;
+using DogGo.Repositories;
 
 namespace DogGO
 {
@@ -28,6 +29,7 @@ namespace DogGO
             services.AddTransient<IWalkerRepository, WalkerRepository>();
             services.AddTransient<IOwnerRepository, OwnerRepository>();
             services.AddTransient<IDogRepository, DogRepository>();
+            services.AddTransient<INeighborhoodRepository, NeighborhoodRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
