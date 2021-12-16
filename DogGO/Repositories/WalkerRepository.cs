@@ -133,5 +133,10 @@ namespace DogGO.Repositories
                 }
             }
         }
+
+        List<Walk> IWalkerRepository.GetWalksByWalkerId(int id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

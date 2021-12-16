@@ -7,7 +7,8 @@ namespace DogGO.Repositories
     public interface IWalkerRepository
     {
         List<Walker> GetAllWalkers();
-        Walker GetWalkerById(int id);
+        List< Walk> GetWalksByWalkerId(int id);
         List<Walker> GetWalkersInNeighborhood(int neighborhoodId);
+        Walker GetWalkerById(int id);
     }
 }
