@@ -73,14 +73,16 @@ namespace DogGO.Controllers
         [Authorize]
         public ActionResult Edit(int id)
         {
+            int ownerId = GetCurrentUserId();
             Dog dog = _dogRepo.GetDogById(id);
+           
 
-            if (dog == null)
+            if (dog.OwnerId == ownerId)
             {
-                return NotFound();
+                return View(dog); 
             }
 
-            return View(dog); ;
+            return Unauthorized();
         }
 
         // POST: DogController/Edit/5
@@ -88,27 +90,42 @@ namespace DogGO.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Dog dog)
         {
-            try
+            int ownerId = GetCurrentUserId();
+            Dog Exstingdog = _dogRepo.GetDogById(id);
+
+
+            if (Exstingdog.OwnerId == ownerId)
             {
-                _dogRepo.UpdateDog(dog);
-                return RedirectToAction(nameof(Index));
+               
+                try
+                {
+                    _dogRepo.UpdateDog(dog);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    return View(dog);
+                }
             }
-            catch(Exception ex)
-            {
-                return View(dog);
-            }
+
+            return Unauthorized();
+           
         }
 
         // GET: DogController/Delete/5
         [Authorize]
         public ActionResult Delete(int id)
         {
+            int ownerId = GetCurrentUserId();
             Dog dog = _dogRepo.GetDogById(id);
-            if (dog == null)
+
+
+            if (dog.OwnerId == ownerId)
             {
-                return StatusCode(404);
+                return View(dog);
             }
-            return View(dog);
+
+            return Unauthorized();
         }
 
         // POST: DogController/Delete/5
@@ -116,15 +133,24 @@ namespace DogGO.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Dog dog)
         {
-            try
+            int ownerId = GetCurrentUserId();
+            Dog Exstingdog = _dogRepo.GetDogById(id);
+
+            if (Exstingdog.OwnerId == ownerId)
             {
-                _dogRepo.DeleteDog(id);
-                return RedirectToAction(nameof(Index));
+
+                try
+                {
+                    _dogRepo.DeleteDog(id);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    return View(dog);
+                }
             }
-            catch
-            {
-                return View();
-            }
+
+            return Unauthorized();
         }
         private int GetCurrentUserId()
         {
