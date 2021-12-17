@@ -53,9 +53,6 @@ namespace DogGo.Repositories
             }
         }
 
-        List<Neighborhood> INeighborhoodRepository.GetAll()
-        {
-            throw new System.NotImplementedException();
-        }
+       
     }
 }

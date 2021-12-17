@@ -57,6 +57,29 @@ namespace DogGO.Repositories
                 }
             }
         }
+        public void AddWalker(Walker walker)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                    INSERT INTO Walker ([Name], ImageUrl,NeighborhoodId)
+                    OUTPUT INSERTED.ID
+                    VALUES (@name, @imageUrl, @NeghborhoodId);
+                ";
+
+                    cmd.Parameters.AddWithValue("@name", walker.Name);
+                    cmd.Parameters.AddWithValue("@imageUrl", walker.ImageUrl);
+                    cmd.Parameters.AddWithValue("@neghborhoodId", walker.NeighborhoodId);              
+                    //when it excute return new id created by database 
+                    int id = (int)cmd.ExecuteScalar();
+                    // we add id to our owner object
+                    walker.Id = id;
+                }
+            }
+        }
 
         public Walker GetWalkerById(int id)
         {
@@ -133,10 +156,28 @@ namespace DogGO.Repositories
                 }
             }
         }
-
-        List<Walk> IWalkerRepository.GetWalksByWalkerId(int id)
+          public void UpdateWalker(Walker walker)
         {
-            throw new System.NotImplementedException();
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            SELECT Id, [Name], ImageUrl, NeighborhoodId
+                        FROM Walker
+                        WHERE Id = @id";
+
+                    cmd.Parameters.AddWithValue("@name", walker.Name);
+                    cmd.Parameters.AddWithValue("@imageUrl", walker.ImageUrl);
+                    cmd.Parameters.AddWithValue("@neighborhoodId", walker.NeighborhoodId);
+                    cmd.Parameters.AddWithValue("@id", walker.Id);
+                    // becuse we don't need any data back from database
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
+
     }
 }

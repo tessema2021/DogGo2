@@ -62,36 +62,49 @@ namespace DogGO.Controllers
         // POST: WalkersController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Walker walker)
         {
             try
             {
+                _walkerRepo.AddWalker(walker);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return View(walker);
             }
         }
 
         // GET: WalkersController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Walker walker = _walkerRepo.GetWalkerById(id);
+            List<Walk> walk = _walkRepo.GetWalks();
+            WalkerProfileViewModel vm = new WalkerProfileViewModel()
+            {
+                Walker = walker,
+                Walks = walk
+            };
+            if (vm == null)
+            {
+                return NotFound();
+            }
+            return View(vm);
         }
 
         // POST: WalkersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, WalkerProfileViewModel vm)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _walkerRepo.UpdateWalker(vm.Walker);
+                return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(vm.Walker);
             }
         }
 

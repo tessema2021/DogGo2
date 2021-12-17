@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DogGO.Repositories;
 using DogGo.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace DogGO
 {
@@ -31,6 +32,9 @@ namespace DogGO
             services.AddTransient<IDogRepository, DogRepository>();
             services.AddTransient<INeighborhoodRepository, NeighborhoodRepository>();
             services.AddTransient<IWalkRepository, WalkRepository>();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+      .AddCookie(options => options.LoginPath = "/Owners/LogIn");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,7 +43,6 @@ namespace DogGO
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseStatusCodePages();
             }
             else
             {
@@ -52,6 +55,7 @@ namespace DogGO
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

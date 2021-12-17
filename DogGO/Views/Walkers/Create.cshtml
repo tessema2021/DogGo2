@@ -1,4 +1,4 @@
-﻿@model DogGO.Models.Dog
+﻿@model DogGO.Models.Walker
 
 @{
     ViewData["Title"] = "Create";
@@ -6,7 +6,7 @@
 
 <h1>Create</h1>
 
-<h4>Dog</h4>
+<h4>Walker</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -23,14 +23,9 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Breed" class="control-label"></label>
-                <input asp-for="Breed" class="form-control" />
-                <span asp-validation-for="Breed" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
+                <label asp-for="NeighborhoodId" class="control-label"></label>
+                <input asp-for="NeighborhoodId" class="form-control" />
+                <span asp-validation-for="NeighborhoodId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ImageUrl" class="control-label"></label>
