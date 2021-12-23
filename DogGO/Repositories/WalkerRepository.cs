@@ -181,6 +181,25 @@ namespace DogGO.Repositories
                 }
             }
         }
+        public void DeleteWalker(int walkerId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                //in a delete we filter by id to make sure deleting only one 
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            DELETE FROM Walker
+                            WHERE Id = @id
+                        ";
+
+                    cmd.Parameters.AddWithValue("@id", walkerId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
 
     }
 }
