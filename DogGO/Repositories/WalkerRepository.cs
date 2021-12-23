@@ -165,9 +165,12 @@ namespace DogGO.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                            SELECT Id, [Name], ImageUrl, NeighborhoodId
-                        FROM Walker
-                        WHERE Id = @id";
+                            UPDATE Walker
+                            SET 
+                                [Name] = @name, 
+                                ImageUrl = @imageUrl, 
+                               NeighborhoodId  = @neighborhoodId
+                            WHERE Id = @id";
 
                     cmd.Parameters.AddWithValue("@name", walker.Name);
                     cmd.Parameters.AddWithValue("@imageUrl", walker.ImageUrl);
